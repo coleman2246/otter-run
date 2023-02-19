@@ -4,8 +4,7 @@ You can work on this assignment alone or in a group of no more than 2 students.
 
 | Group Member Name          | GitHub Username    |
 | :------------------------- |:------------------:|
-| <first_name1> <last_name1> | <github_username1> |
-| <first_name2> <last_name2> | <github_username2> |
+| Cole Mollica | coleman2246 |
 
 Trailer video URL: _________________________
 
