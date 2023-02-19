@@ -1,0 +1,373 @@
+{
+	"name": "Events",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": "Player animations and visuals"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-key-pressed",
+					"objectClass": "Keyboard",
+					"sid": 202242184406921,
+					"parameters": {
+						"key": 37
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-mirrored",
+					"objectClass": "Player",
+					"sid": 627041983138626,
+					"parameters": {
+						"state": "mirrored"
+					}
+				}
+			],
+			"sid": 268777175178256
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-key-pressed",
+					"objectClass": "Keyboard",
+					"sid": 125835052505743,
+					"parameters": {
+						"key": 39
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-mirrored",
+					"objectClass": "Player",
+					"sid": 487190399964730,
+					"parameters": {
+						"state": "not-mirrored"
+					}
+				}
+			],
+			"sid": 208677918595029
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-speed",
+					"objectClass": "Player",
+					"sid": 795764952414794,
+					"behaviorType": "Platform",
+					"parameters": {
+						"comparison": 3,
+						"speed": "50"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-animation-frame",
+					"objectClass": "Player",
+					"sid": 113762749170001,
+					"parameters": {
+						"frame-number": "0"
+					}
+				}
+			],
+			"sid": 112400563983129
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-on-floor",
+					"objectClass": "Player",
+					"sid": 681807355992730,
+					"behaviorType": "Platform",
+					"isInverted": true
+				}
+			],
+			"actions": [
+				{
+					"id": "set-animation-frame",
+					"objectClass": "Player",
+					"sid": 342779706221008,
+					"parameters": {
+						"frame-number": "1"
+					}
+				}
+			],
+			"sid": 978822249569695
+		},
+		{
+			"eventType": "comment",
+			"text": "Springs"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "Player",
+					"sid": 950839746795002,
+					"parameters": {
+						"object": "Spring"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-vector-y",
+					"objectClass": "Player",
+					"sid": 244481128831957,
+					"behaviorType": "Platform",
+					"parameters": {
+						"vector-y": "-400"
+					}
+				},
+				{
+					"id": "start-animation",
+					"objectClass": "Spring",
+					"sid": 885378182696407,
+					"parameters": {
+						"from": "beginning"
+					}
+				}
+			],
+			"sid": 548566405192567
+		},
+		{
+			"eventType": "comment",
+			"text": "Coins"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "Player",
+					"sid": 321650656890314,
+					"parameters": {
+						"object": "Coin"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "destroy",
+					"objectClass": "Coin",
+					"sid": 217658343924071
+				}
+			],
+			"sid": 886626202470243
+		},
+		{
+			"eventType": "comment",
+			"text": "Enemies"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-overlapping-at-offset",
+					"objectClass": "Bug",
+					"sid": 224935650790250,
+					"parameters": {
+						"object": "Tilemap",
+						"offset-x": "1",
+						"offset-y": "-1"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-angle-of-motion",
+					"objectClass": "Bug",
+					"sid": 572735605499935,
+					"behaviorType": "Bullet",
+					"parameters": {
+						"angle": "180"
+					}
+				},
+				{
+					"id": "set-mirrored",
+					"objectClass": "Bug",
+					"sid": 305834023237362,
+					"parameters": {
+						"state": "not-mirrored"
+					}
+				}
+			],
+			"sid": 350776238066692
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-overlapping-at-offset",
+					"objectClass": "Bug",
+					"sid": 944702687275062,
+					"parameters": {
+						"object": "Tilemap",
+						"offset-x": "-1",
+						"offset-y": "-1"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-angle-of-motion",
+					"objectClass": "Bug",
+					"sid": 892203603100661,
+					"behaviorType": "Bullet",
+					"parameters": {
+						"angle": "0"
+					}
+				},
+				{
+					"id": "set-mirrored",
+					"objectClass": "Bug",
+					"sid": 945060894766718,
+					"parameters": {
+						"state": "mirrored"
+					}
+				}
+			],
+			"sid": 734326524594459
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "Player",
+					"sid": 394357269653882,
+					"parameters": {
+						"object": "Bug"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 648988927283827,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-on-floor",
+							"objectClass": "Player",
+							"sid": 674584816122760,
+							"behaviorType": "Platform",
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-vector-y",
+							"objectClass": "Player",
+							"sid": 275471658301959,
+							"behaviorType": "Platform",
+							"parameters": {
+								"vector-y": "-200"
+							}
+						},
+						{
+							"id": "destroy",
+							"objectClass": "Bug",
+							"sid": 368920427812927
+						}
+					],
+					"sid": 149763260818042
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 753849613659786
+						}
+					],
+					"actions": [
+						{
+							"id": "restart-layout",
+							"objectClass": "System",
+							"sid": 303740678131966
+						}
+					],
+					"sid": 206574271527933
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "Player",
+					"sid": 811607278270601,
+					"parameters": {
+						"object": "Bat"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 920509438372335,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-y",
+							"objectClass": "Player",
+							"sid": 296417397614914,
+							"parameters": {
+								"comparison": 2,
+								"y-co-ordinate": "Bat.Y"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-vector-y",
+							"objectClass": "Player",
+							"sid": 131985781095684,
+							"behaviorType": "Platform",
+							"parameters": {
+								"vector-y": "-200"
+							}
+						},
+						{
+							"id": "destroy",
+							"objectClass": "Bat",
+							"sid": 450298123863984
+						}
+					],
+					"sid": 932460556609985
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 368566973141002
+						}
+					],
+					"actions": [
+						{
+							"id": "restart-layout",
+							"objectClass": "System",
+							"sid": 457416017130919
+						}
+					],
+					"sid": 517791083273548
+				}
+			]
+		}
+	],
+	"sid": 589445149829266
+}

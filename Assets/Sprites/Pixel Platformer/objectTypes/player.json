@@ -1,0 +1,84 @@
+{
+	"name": "Player",
+	"plugin-id": "Sprite",
+	"sid": 161015435296661,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Platform",
+			"name": "Platform",
+			"sid": 443177445112132
+		},
+		{
+			"behaviorId": "scrollto",
+			"name": "ScrollTo",
+			"sid": 263402810774754
+		}
+	],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 24,
+						"height": 24,
+						"originX": 0.5,
+						"originY": 1,
+						"originalSource": "",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 4580476,
+						"collisionPoly": {
+							"points": [
+								0.8333333333333334,
+								1,
+								0.16666666666666666,
+								1,
+								0.16666666666666666,
+								0.08333333333333333,
+								0.8333333333333334,
+								0.08333333333333333
+							]
+						},
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 24,
+						"height": 24,
+						"originX": 0.5,
+						"originY": 1,
+						"originalSource": "",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 7992055,
+						"collisionPoly": {
+							"points": [
+								0.8333333333333334,
+								1,
+								0.16666666666666666,
+								1,
+								0.16666666666666666,
+								0.08333333333333333,
+								0.8333333333333334,
+								0.08333333333333333
+							]
+						},
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 620379791426032,
+				"name": "Walk",
+				"isLooping": true,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 10
+			}
+		],
+		"subfolders": []
+	}
+}
