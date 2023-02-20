@@ -44,14 +44,23 @@ public class LevelGeneration : MonoBehaviour
         int currentStartY = 0;
         for(int i = 0; i < numberOfUnits; i++)
         {
-            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap);
+            audioAnal.GenerateAnalysis(i);
+
+            foreach(SoundBands band in SoundBands.GetValues(typeof(SoundBands)))
+            {
+                
+                //Debug.Log($"Band: {band} {audioAnal.highestDeltaPercent[band]} {audioAnal.binnedPowerLevelIncreases[band]}");
+            }
+
+            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap,audioAnal);
             newUnit.GenerateUnit();
 
-            currentStartX = newUnit.endX;
-            currentStartY = newUnit.endY;
+            currentStartX = newUnit.worldEndX;
+            currentStartY = newUnit.worldEndY;
 
             units.Add(newUnit);
         }
 
+        audioAnal.CleanUpDFT();
     }
 }

@@ -7,11 +7,12 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject player;
 
     public static float movementSpeed = 10f; //units are m/s
-    public static float jumpHeight = 3;
+    public static float jumpHeight = 2.5f;
     private float displacement = 0;
     private Vector3 startLocation;
     [SerializeField] private Rigidbody2D rigidBody = null;
     public float score = 0;
+    bool isDead = false;
     private float nextJumpTime;
 
     void Start()
@@ -35,11 +36,14 @@ public class Player : MonoBehaviour
 
     }
 
+
     void FixedUpdate()
     {
-        float dp = movementSpeed * Time.deltaTime;
-        //player.transform.Translate(Vector3.right * dp);
-        //score += dp;
+        if(isDead)
+        {
+            rigidBody.velocity = new Vector2(0,0);
+            return;
+        }
 
         rigidBody.velocity = new Vector2(movementSpeed,rigidBody.velocity.y);
 
@@ -48,18 +52,18 @@ public class Player : MonoBehaviour
         {
             float requiredForce = rigidBody.mass * rigidBody.gravityScale * jumpHeight;
             rigidBody.AddForce(new Vector2(0,requiredForce),ForceMode2D.Impulse);
-            nextJumpTime = Time.time+.1;
+            nextJumpTime = Time.time+.2f;
 
-            Debug.Log(Input.GetButton("Jump"));
         }
 
 
 
     }
 
-    void Jump()
+    void KillPlayer()
     {
-
+        isDead = true;
     }
+
 
 }
