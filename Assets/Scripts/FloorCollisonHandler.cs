@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathObject : MonoBehaviour
+public class FloorCollisonHandler : MonoBehaviour
 {
-
-    
     private void OnTriggerEnter2D(Collider2D other)
     {
         Player player = other.gameObject.GetComponent<Player>();
@@ -14,6 +12,6 @@ public class DeathObject : MonoBehaviour
             return;
         }
 
-        player.KillPlayer();
+        player.TouchedFloor();
     }
 }

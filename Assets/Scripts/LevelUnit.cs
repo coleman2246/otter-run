@@ -19,9 +19,11 @@ public enum BuildBlocks
 public class LevelUnit : MonoBehaviour
 {
     public int seed = 100;
-    public List<List<BuildBlocks>> grid = new List<List<BuildBlocks>>();
     public const float unitTime = 2f;
-    public List<GameObject> prefab;
+
+    private List<List<BuildBlocks>> grid = new List<List<BuildBlocks>>();
+    private List<GameObject> prefab;
+
     private AudioAnalysis audioAnalysis;
 
 
@@ -39,8 +41,9 @@ public class LevelUnit : MonoBehaviour
     private List<(int,int)> obstacleCords = new List<(int,int)>();
     private int maxDeathObstacles;
 
+    private bool isLastUnit;
 
-    public LevelUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis)
+    public LevelUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis, bool isLastUnit)
     {
 
         this.worldStartX = worldStartX;
@@ -60,6 +63,8 @@ public class LevelUnit : MonoBehaviour
         this.prefab = prefab;
         this.audioAnalysis = audioAnalysis;
 
+        this.isLastUnit = isLastUnit;
+
         for(int i = 0; i < gridWidth; i++)
         {
             grid.Add(new List<BuildBlocks>());
@@ -72,37 +77,29 @@ public class LevelUnit : MonoBehaviour
 
 
 
-    /*
-    public LevelUnit(int startX, int startY, List<GameObject> prefab, AudioAnalysis audioAnalysis)
-    {
-
-        this.startX = startX;
-        this.width = Mathf.CeilToInt(unitTime * Player.movementSpeed);
-        this.endX = startX + width;
-        this.startY = startY;
-        this.endY = startY;
-        this.height = 30;
-        this.prefab = prefab;
-        this.audioAnalysis = audioAnalysis;
-
-        for(int i = 0; i < width; i++)
-        {
-            grid.Add(new List<BuildBlocks>());
-            for(int j = 0; j < height; j++)
-            {
-                grid[i].Add(BuildBlocks.Air);
-            }
-        }
-    }
-    */
-
     public void GenerateUnit()
     {
         GenerateFloor();
         GenerateFloorSupport();
-        GenerateDeathObstacles();
         GenerateBonus();
+
+        // want the last unit to be obstacle free
+        // they already made it far enough
+        if(isLastUnit)
+        {
+            GenerateEnding();
+        }
+        else 
+        {
+            GenerateDeathObstacles();
+        }
         InstantiateUnit();
+
+    }
+
+
+    void GenerateEnding()
+    {
 
     }
 
@@ -166,7 +163,7 @@ public class LevelUnit : MonoBehaviour
         // sort the lists by powerIncreases in descending order
         var sortedLists = powerIncreases
             .Select((power, index) => new { Power = power, Bands = bands[index], Percents = percents[index] })
-            .OrderByDescending(item => item.Power)
+            .OrderBy(item => item.Power)
             .ToList();
 
 
@@ -184,7 +181,7 @@ public class LevelUnit : MonoBehaviour
         {
 
             int obstacleGridX = Mathf.FloorToInt(percents[i] * this.floorCords.Count);
-            Debug.Log(obstacleGridX);
+
             // 1 above the foor
             int obstacleGridY = this.floorCords[obstacleGridX].Item2+1;
 
@@ -288,122 +285,5 @@ public class LevelUnit : MonoBehaviour
                 }
             }
         }
-        //Instantiate();
     }
-
-    /*
-
-    void GenerateFloor()
-    {
-        float heightAdjustment = 0;
-        float currentHeight = 0;
-        int lastChange = 0;
-        int lastFullHeight = 0;
-
-       
-        float[] percents = new float[2];
-        float[] powerIncreases = new float[2];
-        bool[] done = new bool[2];
-
-        foreach(SoundBands band in SoundBands.GetValues(typeof(SoundBands)))
-        {
-                
-             float percent = this.audioAnalysis.highestDeltaPercent[band];
-             float powerIncrease = this.audioAnalysis.binnedPowerLevelIncreases[band];
-
-             if(powerIncrease > powerIncreases[0])
-             {
-                 powerIncreases[1]  = powerIncreases[0];
-                 powerIncreases[0]  = powerIncrease;
-
-                 percents[1] = percents[0];
-                 percents[0] = percent;
-             }
-
-
-            //Debug.Log($"Band: {band} {audioAnal.highestDeltaPercent[band]} {audioAnal.binnedPowerLevelIncreases[band]}");
-        }
-
-        int lastDeathBlock = 0;
-        UnityEngine.Random.InitState(seed);
-
-        for(int x = 0; x < width; x++)
-        {
-            float xGen =  x + startX + seed;
-            float yGen = currentHeight + startY + seed;
-
-            heightAdjustment += UnityEngine.Random.Range(-1f, 0.5f);
-            Debug.Log(heightAdjustment);
-             
-            
-            
-            
-            currentHeight += heightAdjustment;
-
-            if(Mathf.FloorToInt(currentHeight) > lastFullHeight && x-lastChange > 3)
-            {
-
-                lastChange = x;
-                lastFullHeight += 1*(int)Mathf.Sign(currentHeight);;
-                heightAdjustment = 0;
-            }
-            
-
-
-            //Debug.Log($"{xGen},{yGen}");
-            Debug.Log($"heght {currentHeight} {heightAdjustment} {lastFullHeight}");
-
-            if(currentHeight >= height)
-            {
-                currentHeight = height-1;
-            }
-
-            if(currentHeight < 0)
-            {
-                currentHeight = 0;
-            }
-
-            grid[x][lastFullHeight] = BuildBlocks.Floor; 
-
-
-            for(int i = 0; i < 2; i++)
-            {
-                if(!done[i] && ( (float)x / (float) width > percents[i]) && powerIncreases[i] > 8000 && (x - lastDeathBlock) > 3)
-                {
-                    grid[x][lastFullHeight+1] = BuildBlocks.Death; 
-                    done[i] = true;
-                    lastDeathBlock  = x;
-                }
-            }
-            
-
-        }
-        endY = Mathf.CeilToInt(lastFullHeight) + startY;
-    }
-
-    void InstantiateUnit()
-    {
-        for(int x = 0; x < width; x++)
-        {
-            for(int y = 0; y < height; y++)
-            {
-                if(grid[x][y] == BuildBlocks.Floor)
-                {
-                    Vector2 blockPos = new Vector2(startX + x, startY + y);
-                    Instantiate(prefab[(int)grid[x][y]], blockPos, Quaternion.identity); 
-                }
-                else if(grid[x][y] == BuildBlocks.Death)
-                {
-                    Vector2 blockPos = new Vector2(startX + x, startY + y);
-                    Instantiate(prefab[(int)grid[x][y]], blockPos, Quaternion.identity); 
-                }
-
-
-            }
-        }
-        //Instantiate();
-        
-    }
-    */ 
-
 }

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:ScrollView style="margin-left: 0; padding-top: 0; padding-bottom: 0; top: 222px; width: 220px; left: 477px;">
+        <ui:Button text="Play" display-tooltip-when-elided="true" name="PlayButton" style="width: auto; padding-left: 0; padding-right: 0; padding-top: 1px; padding-bottom: 0; margin-bottom: 15px; height: 100px;" />
+        <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" style="padding-bottom: 0; margin-bottom: 15px; height: 100px;" />
+        <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" style="height: 100px;" />
+    </ui:ScrollView>
+</ui:UXML>

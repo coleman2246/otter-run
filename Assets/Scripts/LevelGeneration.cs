@@ -5,54 +5,37 @@ using UnityEngine;
 public class LevelGeneration : MonoBehaviour
 {
     public int unitSize = Mathf.RoundToInt(LevelUnit.unitTime * Player.movementSpeed); // each unit should last unitTime
-    private  List<LevelUnit> units;
-    private AudioAnalysis audioAnal;
     public List<GameObject> bands = new List<GameObject>();
     public int numberOfUnits = 0;
     public List<GameObject> propMap;
+    public Vector2 startLocation;
+    public Vector2 endLocation;
+
+    private  List<LevelUnit> units;
+    private AudioAnalysis audioAnal;
     
-    void Start()
+    void Awake()
     {
 
         audioAnal = GetComponent<AudioAnalysis>(); 
         numberOfUnits = Mathf.CeilToInt((float)audioAnal.audioLen / (float)LevelUnit.unitTime);
         units = new List<LevelUnit>();
 
-        //InvokeRepeating("SlowUpdate", 0.0f, 1f/10f);
         GenerateLevel();
-        //audioAnal.audioLen;
-         
-        
-    }
-
-    void SlowUpdate()
-    {
-        int i = 0;
-        foreach(SoundBands band in SoundBands.GetValues(typeof(SoundBands)))
-        {
-            //Debug.Log($"Band: {band} {binnedPowerLevelIncreases[band]}");
-            bands[i].transform.localScale = new Vector3(1,audioAnal.binnedPowerLevelIncreases[band] / 1000,1);
-            i += 1;
-        }
-
-        
     }
 
     void GenerateLevel()
     {
         int currentStartX = 0;
         int currentStartY = 0;
+
+        startLocation = new Vector2(currentStartX,currentStartY);
+
         for(int i = 0; i < numberOfUnits; i++)
         {
             audioAnal.GenerateAnalysis(i);
 
-            foreach(SoundBands band in SoundBands.GetValues(typeof(SoundBands)))
-            {
-                
-                //Debug.Log($"Band: {band} {audioAnal.highestDeltaPercent[band]} {audioAnal.binnedPowerLevelIncreases[band]}");
-            }
-
-            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap,audioAnal);
+            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap,audioAnal, i+1 >= numberOfUnits);
             newUnit.GenerateUnit();
 
             currentStartX = newUnit.worldEndX;
@@ -60,6 +43,9 @@ public class LevelGeneration : MonoBehaviour
 
             units.Add(newUnit);
         }
+
+        endLocation = new Vector2(currentStartX,currentStartY);
+
 
         audioAnal.CleanUpDFT();
     }

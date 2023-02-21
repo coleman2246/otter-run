@@ -5,22 +5,31 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] GameObject player;
+    [SerializeField] LevelGeneration levelGen;
 
     public static float movementSpeed = 10f; //units are m/s
     public static float jumpHeight = 2.5f;
-    private float displacement = 0;
-    private Vector3 startLocation;
-    [SerializeField] private Rigidbody2D rigidBody = null;
+    public static int maxMidAirJumps = 2;
+
+    private Vector3 lastLocation;
+    private Rigidbody2D rigidBody = null;
+    private float debounceTime;
+
+
+    public bool isDead = false;
+    public int jumpsRemaining = maxMidAirJumps;
+    public float progress = 0; // percent done the level
+    public float multiplier = 1;
     public float score = 0;
-    bool isDead = false;
-    private float nextJumpTime;
+
+
 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(movementSpeed,0,0);
-        startLocation = player.transform.position;
-        nextJumpTime = Time.time + .2f;
+        lastLocation = transform.position;
+        debounceTime = Time.time;
     }
 
     
@@ -28,15 +37,12 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+        UpdateProgress();
+        UpdateScore();
+
     }
     
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("Collided");
-
-    }
-
-
+    
     void FixedUpdate()
     {
         if(isDead)
@@ -48,22 +54,50 @@ public class Player : MonoBehaviour
         rigidBody.velocity = new Vector2(movementSpeed,rigidBody.velocity.y);
 
 
-        if (Input.GetButton("Jump") && nextJumpTime < Time.time)
+        if (Input.GetButton("Jump") && jumpsRemaining > 0 && Time.time > debounceTime)
         {
             float requiredForce = rigidBody.mass * rigidBody.gravityScale * jumpHeight;
             rigidBody.AddForce(new Vector2(0,requiredForce),ForceMode2D.Impulse);
-            nextJumpTime = Time.time+.2f;
-
+            jumpsRemaining -= 1;
+            debounceTime = Time.time + .1f;
         }
 
 
 
     }
 
-    void KillPlayer()
+    public void KillPlayer()
     {
-        isDead = true;
+        //isDead = true;
+        Debug.Log("Player is dead");
     }
 
+
+
+    public void TouchedFloor()
+    {
+        jumpsRemaining = maxMidAirJumps;
+    }
+
+    public void UpdateProgress()
+    {
+        //startLocation.x - 
+        float levelLen = Mathf.Abs(levelGen.startLocation.x - levelGen.endLocation.x);
+        float percent =  Mathf.Abs(transform.position.x - levelGen.endLocation.x) / levelLen;
+
+        if(percent > 1.0f)
+        {
+            this.progress = 100;
+            return;
+        }
+
+        this.progress = (1-percent) * 100;
+    }
+
+    void UpdateScore()
+    {
+        score += multiplier * (transform.position.x - lastLocation.x);
+        lastLocation = transform.position;
+    }
 
 }
