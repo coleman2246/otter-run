@@ -17,13 +17,4 @@ public class JSONManager : MonoBehaviour
 
         return File.Exists(JSONManager.savePath + file);
     }
-
-    public static void createFile(string file)
-    {
-        if(!verifySavePathFile(file))
-        {
-            Directory.CreateDirectory(JSONManager.savePath + file);
-        }
-    }
-    
 }

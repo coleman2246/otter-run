@@ -16,7 +16,7 @@ public class JSONLoadManager<T>
         }
 
         string json = File.ReadAllText( JSONManager.savePath + file);
-        T obj = JsonUtility.FromJson<T>(file);
+        T obj = JsonUtility.FromJson<T>(json);
         return obj;
     }
 }

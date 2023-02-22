@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Settings/Settings.uss?fileID=7433441132597879392&amp;guid=8567087163b5bd71f88f542f2f415d74&amp;type=3#Settings" />
+    <ui:VisualElement style="left: 182px; height: 211px; width: 724px; top: 194px;">
+        <ui:Button text="Set Music Path" display-tooltip-when-elided="true" name="SetMusicPathButton" />
+        <ui:Foldout text="Themes" name="ThemeFoldOut" />
+        <ui:Foldout text="Foldout" name="CharactersFoldout" />
+    </ui:VisualElement>
+</ui:UXML>

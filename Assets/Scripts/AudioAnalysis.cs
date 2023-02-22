@@ -183,66 +183,6 @@ public class AudioAnalysis : MonoBehaviour
         //UpdateSpectrum();
     }
 
-    /*
-
-    void UpdateSpectrum()
-    {
-        audioSource.GetSpectrumData(sampleBuffer,0,FFTWindow.Blackman);
-
-        window.Add(sampleBuffer);
-
-
-        if(window.Count > numWindows)
-        {
-            window.RemoveAt(0);
-        }
-
-        UpdatePowerLevelIncrease();
-
-    }
-
-    
-    void UpdatePowerLevelIncrease()
-    {
-        SoundBands currentBand = FrequencyToBand(0);
-        SoundBands prevBand = FrequencyToBand(0);
-
-        float powerIncrease = 0;
-        int n = 0;
-
-        for(int i = 0; i < sampleBufferSize; i+=1)
-        {
-
-            n += 1;
-            currentBand = FrequencyToBand(Mathf.FloorToInt(i * binScaleFactor));
-
-            float basePowerLevel = window[0][i] * powerScaleFactor;
-
-            for(int currWindow = 1; currWindow  < window.Count; currWindow++)
-            {
-                float deltaPower = powerScaleFactor*( (powerScaleFactor * window[currWindow][i]) - basePowerLevel);
-                                
-                if(deltaPower > 0)
-                {
-                    powerIncrease += deltaPower;
-                }
-            }
-
-            if(currentBand != prevBand)
-            {
-                binnedPowerLevelIncreases[currentBand] = (float)powerIncrease / (float)n;
-                n = 0;
-            }
-
-            prevBand = currentBand;
-            //powerLevelIncrease[i] = powerIncrease;
-        }
-
-    }
-    */
-
-
-
     static SoundBands FrequencyToBand(int freq)
     {
         if(freq < 60)

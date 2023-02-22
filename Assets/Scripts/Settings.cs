@@ -27,6 +27,8 @@ public class Settings
     public DirectoryInfo songDir; 
     [System.NonSerialized]
     public static string settingsJSON = "settings.json";
+    [System.NonSerialized]
+    public bool pathNull;
 
 
 
@@ -35,7 +37,12 @@ public class Settings
         this.songDirectoryPath = songDirectoryPath;
         this.selectedTheme = selectedTheme;
         this.selectedCharacter = selectedCharacter;
-        this.songDir = new DirectoryInfo(this.songDirectoryPath);
+        this.pathNull = this.songDirectoryPath == "";
+
+        if(!this.pathNull)
+        {
+            this.songDir = new DirectoryInfo(this.songDirectoryPath);
+        }
     }
 
     public static Settings getDefaults()
