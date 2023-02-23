@@ -37,6 +37,12 @@ public class Settings
         this.songDirectoryPath = songDirectoryPath;
         this.selectedTheme = selectedTheme;
         this.selectedCharacter = selectedCharacter;
+        
+    }
+
+
+    public void SetupComplexObjects()
+    {
         this.pathNull = this.songDirectoryPath == "";
 
         if(!this.pathNull)

@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class JSONLoadManager<T> 
 {
-    public static T LoadJFromJson(string file)
+    public static T LoadFromJson(string file)
     {
         if(!JSONManager.verifySavePathFile(file))
         {

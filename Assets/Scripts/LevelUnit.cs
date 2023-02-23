@@ -81,7 +81,6 @@ public class LevelUnit : MonoBehaviour
     {
         GenerateFloor();
         GenerateFloorSupport();
-        GenerateBonus();
 
         // want the last unit to be obstacle free
         // they already made it far enough
@@ -93,6 +92,8 @@ public class LevelUnit : MonoBehaviour
         {
             GenerateDeathObstacles();
         }
+
+        GenerateBonus();
         InstantiateUnit();
 
     }
@@ -100,6 +101,14 @@ public class LevelUnit : MonoBehaviour
 
     void GenerateEnding()
     {
+        int x = floorCords[floorCords.Count-1].Item1;
+        int y = floorCords[floorCords.Count-1].Item2+1;
+
+        for(int i = y; i < gridHeight; i++)
+        {
+            grid[x][i] = BuildBlocks.LevelEnd;
+
+        }
 
     }
 
@@ -139,6 +148,18 @@ public class LevelUnit : MonoBehaviour
 
     void GenerateBonus()
     {
+        float randomFloat = UnityEngine.Random.Range(0f, 4f);
+
+        if(randomFloat < 3f)
+        {
+            return;
+        }
+
+        int randomIndex = UnityEngine.Random.Range(0, floorCords.Count);
+        int x = floorCords[randomIndex].Item1;
+        int y = floorCords[randomIndex].Item2;
+        grid[x][y+3] = BuildBlocks.BonusPoint;
+
 
     }
 

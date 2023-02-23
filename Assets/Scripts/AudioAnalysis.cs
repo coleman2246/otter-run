@@ -26,7 +26,7 @@ public enum SoundBands
 [RequireComponent (typeof (AudioSource))]
 public class AudioAnalysis : MonoBehaviour
 {
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     public float[] sampleBuffer;
     public static int sampleBufferSize = 1024;
     public List<float[]> dftWindow = new List<float[]>();

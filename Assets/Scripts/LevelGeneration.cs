@@ -12,7 +12,7 @@ public class LevelGeneration : MonoBehaviour
     public Vector2 endLocation;
 
     private  List<LevelUnit> units;
-    private AudioAnalysis audioAnal;
+    public AudioAnalysis audioAnal;
     
     void Awake()
     {

@@ -14,9 +14,11 @@ public class Player : MonoBehaviour
     private Vector3 lastLocation;
     private Rigidbody2D rigidBody = null;
     private float debounceTime;
+    private float pauseDebounceTime;
 
 
     public bool isDead = false;
+    public bool isPaused = false;
     public int jumpsRemaining = maxMidAirJumps;
     public float progress = 0; // percent done the level
     public float multiplier = 1;
@@ -30,12 +32,31 @@ public class Player : MonoBehaviour
         rigidBody.velocity = new Vector3(movementSpeed,0,0);
         lastLocation = transform.position;
         debounceTime = Time.time;
+        pauseDebounceTime = Time.time;
     }
 
     
 
     void Update()
     {
+        if(Input.GetButton("Cancel") & pauseDebounceTime < Time.realtimeSinceStartup)
+        {
+            isPaused = !isPaused;
+            pauseDebounceTime = Time.realtimeSinceStartup + 0.2f;
+        }
+        
+
+        if(isPaused)
+        {
+            Time.timeScale = 0;
+            levelGen.audioAnal.audioSource.Pause();
+        }
+        else
+        {
+            Time.timeScale = 1;
+            levelGen.audioAnal.audioSource.UnPause();
+        }
+
 
         UpdateProgress();
         UpdateScore();
@@ -45,6 +66,7 @@ public class Player : MonoBehaviour
     
     void FixedUpdate()
     {
+        
         if(isDead)
         {
             rigidBody.velocity = new Vector2(0,0);
@@ -69,7 +91,6 @@ public class Player : MonoBehaviour
     public void KillPlayer()
     {
         //isDead = true;
-        Debug.Log("Player is dead");
     }
 
 
@@ -98,6 +119,16 @@ public class Player : MonoBehaviour
     {
         score += multiplier * (transform.position.x - lastLocation.x);
         lastLocation = transform.position;
+    }
+
+    public void IncrementMultiplier()
+    {
+        this.multiplier += .25f;
+    }
+
+    public void EndLevel()
+    {
+        Debug.Log("Level Ended");
     }
 
 }

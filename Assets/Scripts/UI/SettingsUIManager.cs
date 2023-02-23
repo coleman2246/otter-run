@@ -18,7 +18,7 @@ public class SettingsUIManager : MonoBehaviour
     {
         if(JSONManager.verifySavePathFile(Settings.settingsJSON))
         {
-            settings = JSONLoadManager<Settings>.LoadJFromJson(Settings.settingsJSON);
+            settings = JSONLoadManager<Settings>.LoadFromJson(Settings.settingsJSON);
         }
         else 
         {
