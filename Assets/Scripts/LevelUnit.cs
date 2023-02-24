@@ -35,23 +35,24 @@ public class LevelUnit : MonoBehaviour
     private int gridHeight;
     private int gridWidth;
     private int gridMiddleX;
-    private int gridMiddleY;
+    public int gridMiddleY;
 
     private List<(int,int)> floorCords = new List<(int,int)>();
     private List<(int,int)> obstacleCords = new List<(int,int)>();
     private int maxDeathObstacles;
 
     private bool isLastUnit;
+    private bool isFirst;
 
-    public LevelUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis, bool isLastUnit)
+    public LevelUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis, bool isLastUnit, bool isFirst)
     {
 
         this.worldStartX = worldStartX;
         this.worldStartY = worldStartY;
         this.gridWidth = Mathf.CeilToInt(unitTime * Player.movementSpeed);
-        this.gridHeight = 20;
+        this.gridHeight = 30;
 
-        this.gridMiddleX = Mathf.CeilToInt(this.gridWidth / 2f);
+        this.gridMiddleX = Mathf.CeilToInt(this.gridWidth / 5);
         this.gridMiddleY = Mathf.CeilToInt(this.gridHeight / 2f);
 
         this.worldEndX = worldStartX + gridWidth;
@@ -64,6 +65,7 @@ public class LevelUnit : MonoBehaviour
         this.audioAnalysis = audioAnalysis;
 
         this.isLastUnit = isLastUnit;
+        this.isFirst = isFirst;
 
         for(int i = 0; i < gridWidth; i++)
         {
@@ -73,6 +75,7 @@ public class LevelUnit : MonoBehaviour
                 grid[i].Add(BuildBlocks.Air);
             }
         }
+
     }
 
 
@@ -80,6 +83,7 @@ public class LevelUnit : MonoBehaviour
     public void GenerateUnit()
     {
         GenerateFloor();
+
         GenerateFloorSupport();
 
         // want the last unit to be obstacle free
@@ -88,12 +92,13 @@ public class LevelUnit : MonoBehaviour
         {
             GenerateEnding();
         }
-        else 
+        else if(!isFirst)
         {
             GenerateDeathObstacles();
         }
 
         GenerateBonus();
+
         InstantiateUnit();
 
     }
@@ -231,6 +236,12 @@ public class LevelUnit : MonoBehaviour
                     continue;
                 }
 
+                // dont want obstacle on first x
+                if(obstacleGridX < 1)
+                {
+                    continue;
+                }
+
                 obstacleCords.Add((obstacleGridX, obstacleGridY));
                 grid[obstacleGridX][obstacleGridY] = BuildBlocks.Death; 
             }
@@ -276,11 +287,11 @@ public class LevelUnit : MonoBehaviour
                 {
                     currentHeight = grid.Count-1;
                 }
-                
 
             }
 
             this.floorCords.Add((x,currentHeight));
+
 
             grid[x][currentHeight] = BuildBlocks.Floor; 
             
@@ -299,12 +310,13 @@ public class LevelUnit : MonoBehaviour
         {
             for(int y = 0; y < gridHeight; y++)
             {
-                if(grid[x][y] != BuildBlocks.Air)
-                {
+                //if(grid[x][y] != BuildBlocks.Air)
+                //{
                     Vector2 blockPos = new Vector2(worldStartX + x, worldStartY + y);
                     Instantiate(prefab[(int)grid[x][y]], blockPos, Quaternion.identity); 
-                }
+                //}
             }
+
         }
     }
 }

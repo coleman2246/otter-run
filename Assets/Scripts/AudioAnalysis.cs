@@ -8,9 +8,6 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 
-
-
-
 public enum SoundBands
 {
     SubBass,
@@ -45,7 +42,14 @@ public class AudioAnalysis : MonoBehaviour
     //
     void Awake()
     {
+
         audioSource = GetComponent<AudioSource>(); 
+        if(Song.passedSongInstance != null)
+        {
+            
+            Song.passedSongInstance.ToAudioClip();
+            audioSource.clip =  Song.passedSongInstance.clip;
+        }
 
 
         clip = audioSource.clip;

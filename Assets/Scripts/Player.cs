@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public static int maxMidAirJumps = 2;
 
     private Vector3 lastLocation;
+    private Vector2 startLocation;
     private Rigidbody2D rigidBody = null;
     private float debounceTime;
     private float pauseDebounceTime;
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
     public bool isPaused = false;
+    public bool isEnded = false;
     public int jumpsRemaining = maxMidAirJumps;
     public float progress = 0; // percent done the level
     public float multiplier = 1;
@@ -30,7 +32,14 @@ public class Player : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(movementSpeed,0,0);
+
+        float y = levelGen.startLocation.y + levelGen.units[0].gridMiddleY + 1;
+        // need to start close to 0 for time to line up
+        transform.position = new Vector2(levelGen.startLocation.x+1,y);
+        
+
         lastLocation = transform.position;
+        startLocation = transform.position;
         debounceTime = Time.time;
         pauseDebounceTime = Time.time;
     }
@@ -48,13 +57,16 @@ public class Player : MonoBehaviour
 
         if(isPaused)
         {
-            Time.timeScale = 0;
-            levelGen.audioAnal.audioSource.Pause();
+            StopLevel();
         }
         else
         {
-            Time.timeScale = 1;
-            levelGen.audioAnal.audioSource.UnPause();
+            ContinueLevel();
+        }
+
+        if(isDead || isEnded)
+        {
+            StopLevel();
         }
 
 
@@ -62,17 +74,24 @@ public class Player : MonoBehaviour
         UpdateScore();
 
     }
+
+
+    void StopLevel()
+    {
+        Time.timeScale = 0;
+        levelGen.audioAnal.audioSource.Pause();
+    }
+
+    void ContinueLevel()
+    {
+        Time.timeScale = 1;
+        levelGen.audioAnal.audioSource.UnPause();
+    }
     
     
     void FixedUpdate()
     {
         
-        if(isDead)
-        {
-            rigidBody.velocity = new Vector2(0,0);
-            return;
-        }
-
         rigidBody.velocity = new Vector2(movementSpeed,rigidBody.velocity.y);
 
 
@@ -81,7 +100,7 @@ public class Player : MonoBehaviour
             float requiredForce = rigidBody.mass * rigidBody.gravityScale * jumpHeight;
             rigidBody.AddForce(new Vector2(0,requiredForce),ForceMode2D.Impulse);
             jumpsRemaining -= 1;
-            debounceTime = Time.time + .1f;
+            debounceTime = Time.time + .15f;
         }
 
 
@@ -90,7 +109,7 @@ public class Player : MonoBehaviour
 
     public void KillPlayer()
     {
-        //isDead = true;
+        isDead = true;
     }
 
 
@@ -128,7 +147,36 @@ public class Player : MonoBehaviour
 
     public void EndLevel()
     {
-        Debug.Log("Level Ended");
+        isEnded = true;
+    }
+
+    public void RestartLevel()
+    {
+        //go back to start
+        transform.position = startLocation;
+        lastLocation = startLocation;
+
+        
+        // restart song
+        levelGen.audioAnal.audioSource.Stop();
+        levelGen.audioAnal.audioSource.Play();
+
+        // reset stats
+        multiplier = 1;
+        score = 0;
+
+
+        // clear all game states
+        isEnded = false;
+        isDead = false;
+        isPaused = false; 
+
+        // clear all forces
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = 0;
+
+
+
     }
 
 }

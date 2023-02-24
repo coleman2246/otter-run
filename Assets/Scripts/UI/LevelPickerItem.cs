@@ -31,6 +31,8 @@ public class LevelPickerItem : VisualElement
 
     void PlayLevel()
     {
+        song.ToAudioClip();
+        song.SaveInstance();
         SceneManager.LoadScene("Level");
     }
 

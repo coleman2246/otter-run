@@ -11,7 +11,7 @@ public class LevelGeneration : MonoBehaviour
     public Vector2 startLocation;
     public Vector2 endLocation;
 
-    private  List<LevelUnit> units;
+    public List<LevelUnit> units;
     public AudioAnalysis audioAnal;
     
     void Awake()
@@ -35,7 +35,7 @@ public class LevelGeneration : MonoBehaviour
         {
             audioAnal.GenerateAnalysis(i);
 
-            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap,audioAnal, i+1 >= numberOfUnits);
+            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap,audioAnal, i+1 >= numberOfUnits, i == 0);
             newUnit.GenerateUnit();
 
             currentStartX = newUnit.worldEndX;
@@ -48,5 +48,7 @@ public class LevelGeneration : MonoBehaviour
 
 
         audioAnal.CleanUpDFT();
+        // start song now that generation is done;
+        audioAnal.audioSource.Play();
     }
 }

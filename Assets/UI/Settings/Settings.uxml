@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Settings/Settings.uss?fileID=7433441132597879392&amp;guid=8567087163b5bd71f88f542f2f415d74&amp;type=3#Settings" />
-    <ui:VisualElement style="left: 182px; height: 211px; width: 724px; top: 194px;">
-        <ui:Button text="Set Music Path" display-tooltip-when-elided="true" name="SetMusicPathButton" />
+    <ui:ScrollView style="left: 285px; top: 177px; width: 713px; height: auto;">
+        <ui:Button text="Set Music Path" display-tooltip-when-elided="true" name="SetMusicPathButton" style="height: 45px;" />
         <ui:Foldout text="Themes" name="ThemeFoldOut" />
         <ui:Foldout text="Foldout" name="CharactersFoldout" />
-    </ui:VisualElement>
+        <ui:SliderInt picking-mode="Ignore" label="Volume" value="42" high-value="100" />
+    </ui:ScrollView>
 </ui:UXML>

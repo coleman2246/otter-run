@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Level/Status.uss?fileID=7433441132597879392&amp;guid=f72ff246ad3ce3618b57092ee468da6c&amp;type=3#Status" />
     <Style src="project://database/Assets/UI/Main%20Menu/MainMenu.uss?fileID=7433441132597879392&amp;guid=261fcf9a700e5ea39a2725c90f0aca40&amp;type=3#MainMenu" />
-    <ui:ProgressBar value="22" title="my-progress" name="LevelProgressBar" style="left: 0; top: 96px;" />
+    <ui:ProgressBar value="22" title=" " name="LevelProgressBar" style="left: 0; top: 96px;" />
     <ui:Label text="Score : " display-tooltip-when-elided="true" name="LevelScoreLabel" style="top: -20px; left: 15px; font-size: 27px;" />
     <ui:Label text="Multiplier:" display-tooltip-when-elided="true" name="LevelMultiplyLabel" style="top: -20px; left: 15px; font-size: 27px;" />
 </ui:UXML>
