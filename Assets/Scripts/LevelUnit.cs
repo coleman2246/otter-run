@@ -18,7 +18,7 @@ public enum BuildBlocks
 
 public class LevelUnit : MonoBehaviour
 {
-    public int seed = 100;
+    public int seed; 
     public const float unitTime = 2f;
 
     private List<List<BuildBlocks>> grid = new List<List<BuildBlocks>>();
@@ -46,6 +46,15 @@ public class LevelUnit : MonoBehaviour
 
     public LevelUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis, bool isLastUnit, bool isFirst)
     {
+
+        if(Song.passedSongInstance != null)
+        {
+            this.seed = Song.passedSongInstance.HashToInt();
+        }
+        else 
+        {
+            this.seed = 100;
+        }
 
         this.worldStartX = worldStartX;
         this.worldStartY = worldStartY;
@@ -267,6 +276,12 @@ public class LevelUnit : MonoBehaviour
 
             if((x - lastChangeInHeight) > Mathf.Floor((float)gridWidth/3.0f))
             {
+                // dont want changes in height at the start
+                if(isFirst)
+                {
+                    randomFloat = 0;
+                }
+
                 if(randomFloat > 0.6)
                 {
                     currentHeight += 1;

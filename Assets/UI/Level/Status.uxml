@@ -1,7 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Level/Status.uss?fileID=7433441132597879392&amp;guid=f72ff246ad3ce3618b57092ee468da6c&amp;type=3#Status" />
     <Style src="project://database/Assets/UI/Main%20Menu/MainMenu.uss?fileID=7433441132597879392&amp;guid=261fcf9a700e5ea39a2725c90f0aca40&amp;type=3#MainMenu" />
-    <ui:ProgressBar value="22" title=" " name="LevelProgressBar" style="left: 0; top: 96px;" />
-    <ui:Label text="Score : " display-tooltip-when-elided="true" name="LevelScoreLabel" style="top: -20px; left: 15px; font-size: 27px;" />
-    <ui:Label text="Multiplier:" display-tooltip-when-elided="true" name="LevelMultiplyLabel" style="top: -20px; left: 15px; font-size: 27px;" />
+    <ui:ProgressBar value="22" title=" " name="LevelProgressBar" class="level-stat" style="left: 0; top: 15%; color: rgb(0, 0, 0); -unity-background-image-tint-color: rgb(181, 90, 17); -unity-font: url(&apos;project://database/Assets/Fonts/ka1.ttf?fileID=12800000&amp;guid=e2da5d1626a80736598b71e17ab643a6&amp;type=3#ka1&apos;); -unity-font-definition: none;" />
+    <ui:Label text="Score : " display-tooltip-when-elided="true" name="LevelScoreLabel" style="top: 1%; left: 1%; font-size: 30%; -unity-font: url(&apos;project://database/Assets/Fonts/ka1.ttf?fileID=12800000&amp;guid=e2da5d1626a80736598b71e17ab643a6&amp;type=3#ka1&apos;); -unity-font-definition: none; color: rgb(180, 89, 16); position: absolute;" />
+    <ui:Label text="Multiplier:" display-tooltip-when-elided="true" name="LevelMultiplyLabel" style="top: 8%; left: 1%; font-size: 30%; -unity-font: url(&apos;project://database/Assets/Fonts/ka1.ttf?fileID=12800000&amp;guid=e2da5d1626a80736598b71e17ab643a6&amp;type=3#ka1&apos;); -unity-font-definition: none; color: rgb(181, 90, 17); position: absolute; right: 1152px;" />
+    <ui:Label text="HighScore:" display-tooltip-when-elided="true" name="LevelHighScoreLabel" style="top: 0; left: 70%; font-size: 27px; -unity-font: url(&apos;project://database/Assets/Fonts/ka1.ttf?fileID=12800000&amp;guid=e2da5d1626a80736598b71e17ab643a6&amp;type=3#ka1&apos;); -unity-font-definition: none; color: rgb(181, 90, 17); position: absolute;" />
 </ui:UXML>

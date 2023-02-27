@@ -10,8 +10,6 @@ public class JSONSaveManager<T>
     public static void SaveToJson(string filename, T classToWrite)
     {
         string json = JsonUtility.ToJson(classToWrite);
-        Debug.Log(JSONManager.savePath + filename);
-
         File.WriteAllText(JSONManager.savePath + filename, json);
     }
 }

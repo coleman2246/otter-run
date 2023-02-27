@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Level/PauseMenu.uss?fileID=7433441132597879392&amp;guid=8b7a34b8811ce922ba2b756747a63f26&amp;type=3#PauseMenu" />
-    <ui:ScrollView style="top: 40%; width: 383px; left: 35%; height: auto;">
+    <ui:ScrollView style="top: 25%; width: 50%; left: 25%; height: 50px; position: relative; align-items: auto; justify-content: center; transform-origin: center;">
         <ui:Button text="Continue" display-tooltip-when-elided="true" name="ContinueButton" />
         <ui:Button text="Restart" display-tooltip-when-elided="true" name="RestartButton" />
-        <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" />
+        <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" style="flex-basis: auto;" />
+        <ui:SliderInt picking-mode="Ignore" label="Volume" value="42" high-value="100" name="VolumeSlider" />
     </ui:ScrollView>
 </ui:UXML>

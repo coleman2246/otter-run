@@ -13,7 +13,7 @@ public class LevelPickerItem : VisualElement
         this.song = song;
 
           // Create the song information label
-        Label songInfoLabel = new Label($"Highscore: {song.highScore}");
+        Label songInfoLabel = new Label($"Highscore: {Mathf.FloorToInt(song.highScore)}");
         songInfoLabel.style.marginLeft = 10;
 
         // Create the play button

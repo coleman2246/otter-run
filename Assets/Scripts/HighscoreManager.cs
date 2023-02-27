@@ -6,40 +6,57 @@ public class HighscoreManager : MonoBehaviour
 {
 
     public static string highScoreJson = "highScores.json";
-    
+    public static SerializableDictionary<string, float> scores = InitScores();
 
-    /*
-    static public Dictionary<string, float> LoadScores()
+    public static SerializableDictionary<string, float> InitScores()
     {
-
-    }
-
-    static public float GetScore(Song song)
-    {
-
-    }
-
-    static public void WriteScores(Dictionary<string, float> scores)
-    {
-
-    }
-
-
-
-    
-    static public void UpdateHighScore(Song song)
-    {
-        Dictionary<string, float> scores = LoadScores();
-
-        if(scores.ContainsKey(song.md5Hash))
+        if(JSONManager.verifySavePathFile(highScoreJson))
         {
-            // add key to dict and write it 
+            return JSONLoadManager<SerializableDictionary<string, float>>.LoadFromJson(highScoreJson);
         }
 
+        return new SerializableDictionary<string,float>();
+    
     }
 
-    */
+    static public float GetScore(string hash)
+    {
+        
+        if(scores.ContainsKey(hash))
+        {
+            return scores[hash];
+        }
 
+        else
+        {
+            scores.Add(hash,0f);
 
-   
+            if(JSONManager.verifySavePathFile(highScoreJson))
+            {
+                JSONSaveManager<SerializableDictionary<string,float>>.SaveToJson(highScoreJson, scores);
+            }
+
+        }
+
+        return 0f;
+    }
+
+    static public bool UpdateHighScore(string hash, float newScore)
+    {
+        float oldScore = GetScore(hash);
+
+        if(newScore > oldScore)
+        {
+            scores[hash] = newScore;
+            foreach(string key in scores.Keys)
+            {
+                Debug.Log($"Writing: {key}");
+            }
+            JSONSaveManager<SerializableDictionary<string,float>>.SaveToJson(highScoreJson, scores);
+            return true;
+        }
+        return false;
+
+    }
+
 }

@@ -1,0 +1,16 @@
+
+.level-stat .unity-progress-bar__progress {
+    background-color: #B55A11;
+}
+
+
+.level-stat .unity-progress-bar__progress {
+    background-color: #B55A11;
+}
+
+.level-stat .unity-progress-bar__background {
+    background-color: #B77F4D;
+}
+
+
+

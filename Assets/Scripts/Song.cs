@@ -1,9 +1,13 @@
 using System;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.Networking;
+using System.Threading;
 using UnityEngine;
 
 
@@ -37,10 +41,22 @@ public class Song : ScriptableObject
         this.fileType = file.Extension;
         this.songName = file.Name;
 
-        this.md5Hash = CalculateMD5(file);
-        this.highScore = LookUpHighScore(this.md5Hash);
     }
 
+
+    public int HashToInt()
+    {
+        string half = this.md5Hash.Substring(0, this.md5Hash.Length / 2);
+
+        string firstQuarter = half.Substring(0, half.Length/2);
+        string secQuarter = half.Substring(half.Length/2);
+
+        int firstQuarterNumber = Convert.ToInt32(firstQuarter, 16);
+        int secQuarterNumber = Convert.ToInt32(secQuarter, 16);
+
+        return firstQuarterNumber ^ secQuarterNumber;
+
+    }
 
     public void SaveInstance()
     {
@@ -98,17 +114,31 @@ public class Song : ScriptableObject
     public static List<Song> GetAllSongs(DirectoryInfo dir)
     {
         List<Song> songs = new List<Song>();
-
-
+        
         FileInfo[] songFiles = dir.GetFiles("*.mp3");
+
 
         foreach(FileInfo currSong in songFiles)
         {
+
             songs.Add(new Song(currSong));
+                
         }
+
+        // hashing is slow :(, lets throw more threads at it
+        Parallel.ForEach(songs, currSong =>
+        {
+            currSong.SetHash();
+        });
 
         return songs;
 
+    }
+
+    public void SetHash()
+    {
+        this.md5Hash = CalculateMD5(this.fileInfo);
+        this.highScore = HighscoreManager.GetScore(this.md5Hash);
     }
 
     // taken from:

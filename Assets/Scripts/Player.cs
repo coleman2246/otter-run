@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] LevelGeneration levelGen;
 
     public static float movementSpeed = 10f; //units are m/s
-    public static float jumpHeight = 2.5f;
+    public static float jumpHeight = 3f;
+    public static float airTime = 0.1f;
     public static int maxMidAirJumps = 2;
 
     private Vector3 lastLocation;
@@ -48,6 +49,20 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetButtonDown("Jump") && jumpsRemaining > 0 && Time.time > debounceTime)
+        {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
+
+            float v0 = (jumpHeight / airTime)  - (  (rigidBody.gravityScale * airTime) / 2f);
+
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, v0);
+
+            jumpsRemaining -= 1;
+            debounceTime = Time.time + .15f;
+        }
+
+
         if(Input.GetButton("Cancel") & pauseDebounceTime < Time.realtimeSinceStartup)
         {
             isPaused = !isPaused;
@@ -67,6 +82,11 @@ public class Player : MonoBehaviour
         if(isDead || isEnded)
         {
             StopLevel();
+            if(Song.passedSongInstance != null)
+            {
+                HighscoreManager.UpdateHighScore(Song.passedSongInstance.md5Hash,score);
+            }
+
         }
 
 
@@ -93,17 +113,6 @@ public class Player : MonoBehaviour
     {
         
         rigidBody.velocity = new Vector2(movementSpeed,rigidBody.velocity.y);
-
-
-        if (Input.GetButton("Jump") && jumpsRemaining > 0 && Time.time > debounceTime)
-        {
-            float requiredForce = rigidBody.mass * rigidBody.gravityScale * jumpHeight;
-            rigidBody.AddForce(new Vector2(0,requiredForce),ForceMode2D.Impulse);
-            jumpsRemaining -= 1;
-            debounceTime = Time.time + .15f;
-        }
-
-
 
     }
 
