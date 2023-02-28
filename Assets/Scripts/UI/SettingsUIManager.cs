@@ -45,7 +45,6 @@ public class SettingsUIManager : MonoBehaviour
         }
 
 
-        Debug.Log(startingDir);
 
         // https://github.com/gkngkc/UnityStandaloneFileBrowser/blob/master/Assets/StandaloneFileBrowser/StandaloneFileBrowser.cs#L87
         string[] paths = StandaloneFileBrowser.OpenFolderPanel("Select Music Folder", startingDir, false);
@@ -70,9 +69,4 @@ public class SettingsUIManager : MonoBehaviour
 
 
     }
-
-
-
-
-
 }

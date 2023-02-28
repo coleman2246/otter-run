@@ -35,6 +35,7 @@ public class PauseMenuUIManager : MonoBehaviour
 
     void ContinueLevel()
     {
+        player.isPaused = false;
 
     }
 

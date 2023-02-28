@@ -1,0 +1,29 @@
+# StandAlone File Browser
+- https://github.com/gkngkc/UnityStandaloneFileBrowser
+- Unity does not support access to the file browser out of box outside of editor
+- MIT License
+
+ # Karmatic Arcade Font
+- https://www.1001fonts.com/karmatic-arcade-font.html
+- Retro arcade font used for UI
+- 1001Fonts Free For Commercial Use License (FFC)
+
+# Pixel Platform Industrial Expansion:
+- https://kenney-assets.itch.io/pixel-platformer-industrial-expansion
+- Used for terrain generation sprites 
+-  CC0 1.0 Universal
+
+# Otter Sprite Pack
+ - https://rili-xl.itch.io/otter-sprite-pack
+ - Used as main character 
+ - Free for commercial use
+
+ # BurstFFT
+ - Unity does not have a built in FFT you can use on arbitary data and writing my own seems like reinventing the wheel
+ - https://github.com/keijiro/BurstFFT
+ - Had to open an issue on the github, but license is  now Unlicenese license
+
+# Included Music
+ # 
+
+

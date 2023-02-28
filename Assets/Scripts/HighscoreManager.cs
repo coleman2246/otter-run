@@ -48,10 +48,8 @@ public class HighscoreManager : MonoBehaviour
         if(newScore > oldScore)
         {
             scores[hash] = newScore;
-            foreach(string key in scores.Keys)
-            {
-                Debug.Log($"Writing: {key}");
-            }
+
+            
             JSONSaveManager<SerializableDictionary<string,float>>.SaveToJson(highScoreJson, scores);
             return true;
         }

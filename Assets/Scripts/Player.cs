@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D rigidBody = null;
     private float debounceTime;
     private float pauseDebounceTime;
+    private Animator animator;
+    private string defaultAnimationState;
 
 
     public bool isDead = false;
@@ -26,23 +28,31 @@ public class Player : MonoBehaviour
     public float progress = 0; // percent done the level
     public float multiplier = 1;
     public float score = 0;
+    public bool isMidAir = false;
+    public bool expectingFall = false;
 
 
 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
         rigidBody.velocity = new Vector3(movementSpeed,0,0);
 
         float y = levelGen.startLocation.y + levelGen.units[0].gridMiddleY + 1;
+
         // need to start close to 0 for time to line up
-        transform.position = new Vector2(levelGen.startLocation.x+1,y);
+        transform.position = new Vector2(levelGen.startLocation.x+1,y+1);
         
 
         lastLocation = transform.position;
         startLocation = transform.position;
         debounceTime = Time.time;
         pauseDebounceTime = Time.time;
+
+        // found this here https://forum.unity.com/threads/animator-go-to-default-state-by-script.1189132/
+        defaultAnimationState = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
     }
 
     
@@ -58,8 +68,24 @@ public class Player : MonoBehaviour
 
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, v0);
 
+
+            if(jumpsRemaining == maxMidAirJumps)
+            {
+                animator.SetTrigger("Jump");
+                isMidAir = true;
+                expectingFall = true;
+            }
+
             jumpsRemaining -= 1;
             debounceTime = Time.time + .15f;
+
+
+        }
+
+        if(!isMidAir && expectingFall)
+        {
+            animator.SetTrigger("HitFloor");
+            expectingFall = false;
         }
 
 
@@ -102,7 +128,7 @@ public class Player : MonoBehaviour
         levelGen.audioAnal.audioSource.Pause();
     }
 
-    void ContinueLevel()
+    public void ContinueLevel()
     {
         Time.timeScale = 1;
         levelGen.audioAnal.audioSource.UnPause();
@@ -125,6 +151,8 @@ public class Player : MonoBehaviour
 
     public void TouchedFloor()
     {
+        
+        isMidAir = false;
         jumpsRemaining = maxMidAirJumps;
     }
 
@@ -184,7 +212,14 @@ public class Player : MonoBehaviour
         rigidBody.velocity = Vector3.zero;
         rigidBody.angularVelocity = 0;
 
+        jumpsRemaining = maxMidAirJumps-1;
+        isMidAir = false;
+        expectingFall = false;
 
+
+        animator.SetBool("HitFloor",false);
+        animator.SetBool("Jump",false);
+        animator.Play(defaultAnimationState);
 
     }
 

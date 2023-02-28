@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Needed a way to serialize a dict. Dont want to use a list because lookup will take take a while
+// Needed a way to serialize a dict. Dont want to use a list because lookup will take take a while when list gets big
 // For some reason, unity does not let you do that out of the box
 // Anyways, this entire class is taken from:
 // https://answers.unity.com/questions/460727/how-to-serialize-dictionary-with-unity-serializati.html

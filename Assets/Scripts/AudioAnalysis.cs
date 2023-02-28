@@ -81,8 +81,6 @@ public class AudioAnalysis : MonoBehaviour
 
         float currentSample = startSample;
 
-        //Debug.Log($"Ite  {sampleBufferSize} {((endSample - startSample) / (float)sampleBufferSize) }");
-        //Debug.Log($"Start: {startSample} End: {endSample}");
 
         float[] window = new float[sampleBufferSize];
 
@@ -102,7 +100,6 @@ public class AudioAnalysis : MonoBehaviour
                 break;
             }
 
-            float start = Time.realtimeSinceStartup;
             clip.GetData(sampleBuffer,Mathf.FloorToInt(currentSample));
 
             // need to apply windowing to reduce spectral leakage; 
@@ -116,7 +113,6 @@ public class AudioAnalysis : MonoBehaviour
             dft.Transform(conv);
             dftWindow.Add(dft.Spectrum.ToArray());
             currentSample += sampleBufferSize;
-            //Debug.Log(start - Time.realtimeSinceStartup);
         }
 
         GeneratePowerLevelIncreases();
@@ -134,16 +130,31 @@ public class AudioAnalysis : MonoBehaviour
         float powerIncrease = 0;
         int n = 0;
 
+        float highestIncrease = 0;
+        int currentHighestIndex = 0;
+
         for(int i = 0; i < sampleBufferSize; i+=1)
         {
 
             n += 1;
             currentBand = FrequencyToBand(Mathf.FloorToInt(i * binScaleFactor));
 
+
+            if(currentBand != prevBand)
+            {
+                binnedPowerLevelIncreases[currentBand] = (float)powerIncrease / (float)n;
+                highestDeltaPercent[currentBand] = (float)currentHighestIndex/(float)dftWindow.Count;
+                n = 0;
+                highestIncrease = 0;
+                currentHighestIndex = 0;
+            }
+
+            prevBand = currentBand;
+ 
+
             float basePowerLevel = dftWindow[0][i];
-            float highestIncrease = 0;
-            int currentHighestIndex = 0;
-            //Debug.Log($"BasePower Level {dftWindow[0][i]}");
+
+           //Debug.Log($"BasePower Level {dftWindow[0][i]}");
 
             for(int currWindow = 1; currWindow  < dftWindow.Count; currWindow++)
             {
@@ -164,14 +175,7 @@ public class AudioAnalysis : MonoBehaviour
                 }
             }
 
-            if(currentBand != prevBand)
-            {
-                binnedPowerLevelIncreases[currentBand] = (float)powerIncrease / (float)n;
-                highestDeltaPercent[currentBand] = (float)currentHighestIndex/(float)dftWindow.Count;
-                n = 0;
-            }
-            prevBand = currentBand;
-            //powerLevelIncrease[i] = powerIncrease;
+           //powerLevelIncrease[i] = powerIncrease;
         }
 
     }
