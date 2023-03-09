@@ -36,7 +36,7 @@ public class LevelPickerUIManager : MonoBehaviour
         con = root.Q<VisualElement>("SongListContainer");
 
 
-        if(settings.pathNull)
+        if(settings.pathNull || Song.GetAllSongs(settings.songDir).Count < 1)
         {
             NoSongs();
         }
@@ -66,7 +66,7 @@ public class LevelPickerUIManager : MonoBehaviour
 
     void NoSongs()
     {
-
+        con.Add(new NoSongsElement());
     }
 
     // Update is called once per frame

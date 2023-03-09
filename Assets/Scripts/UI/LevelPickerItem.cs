@@ -19,8 +19,9 @@ public class LevelPickerItem : VisualElement
         // Create the play button
         Button playButton = new Button();
         playButton.text = $"{song.songName}";
+
         playButton.style.marginLeft = 10;
-        playButton.style.marginTop = 20;
+        playButton.style.marginTop = 30;
 
         playButton.RegisterCallback<ClickEvent>(_ => PlayLevel());
 

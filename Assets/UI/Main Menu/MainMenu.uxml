@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:ScrollView style="margin-left: 0; padding-top: 0; padding-bottom: 0; top: 222px; width: 220px; left: 477px;">
+    <Style src="project://database/Assets/UI/Level/PauseMenu.uss?fileID=7433441132597879392&amp;guid=8b7a34b8811ce922ba2b756747a63f26&amp;type=3#PauseMenu" />
+    <ui:ScrollView style="margin-left: 0; padding-top: 0; padding-bottom: 0; top: 25%; width: 30%; left: 35%; height: 50%; position: absolute; -unity-font: url(&apos;project://database/Assets/Fonts/ka1.ttf?fileID=12800000&amp;guid=e2da5d1626a80736598b71e17ab643a6&amp;type=3#ka1&apos;); -unity-font-definition: none;">
         <ui:Button text="Play" display-tooltip-when-elided="true" name="PlayButton" style="width: auto; padding-left: 0; padding-right: 0; padding-top: 1px; padding-bottom: 0; margin-bottom: 15px; height: 100px;" />
         <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" style="padding-bottom: 0; margin-bottom: 15px; height: 100px;" />
         <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" style="height: 100px;" />

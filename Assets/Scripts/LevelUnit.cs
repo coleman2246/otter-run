@@ -325,11 +325,11 @@ public class LevelUnit : MonoBehaviour
         {
             for(int y = 0; y < gridHeight; y++)
             {
-                //if(grid[x][y] != BuildBlocks.Air)
-                //{
+                if(grid[x][y] != BuildBlocks.Air)
+                {
                     Vector2 blockPos = new Vector2(worldStartX + x, worldStartY + y);
                     Instantiate(prefab[(int)grid[x][y]], blockPos, Quaternion.identity); 
-                //}
+                }
             }
 
         }

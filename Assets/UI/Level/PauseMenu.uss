@@ -1,4 +1,4 @@
 Button {
-    background-color: ##B55A11;
+    background-color: #B55A11;
     color : #000000;
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    [SerializeField] LevelGeneration levelGen;
 
     public static float movementSpeed = 10f; //units are m/s
     public static float jumpHeight = 3f;
@@ -20,7 +19,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private string defaultAnimationState;
 
-
+    public LevelGeneration levelGen;
     public bool isDead = false;
     public bool isPaused = false;
     public bool isEnded = false;
@@ -30,13 +29,20 @@ public class Player : MonoBehaviour
     public float score = 0;
     public bool isMidAir = false;
     public bool expectingFall = false;
+    public bool hasAnim = false;
 
 
-
+    void Awake()
+    {
+        levelGen = GameObject.Find("Procedural Generation").GetComponent<LevelGeneration>();
+    }
     void Start()
     {
+
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        
+        hasAnim = animator != null;
 
         rigidBody.velocity = new Vector3(movementSpeed,0,0);
 
@@ -51,8 +57,11 @@ public class Player : MonoBehaviour
         debounceTime = Time.time;
         pauseDebounceTime = Time.time;
 
-        // found this here https://forum.unity.com/threads/animator-go-to-default-state-by-script.1189132/
-        defaultAnimationState = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        if(hasAnim)
+        {
+            // found this here https://forum.unity.com/threads/animator-go-to-default-state-by-script.1189132/
+            defaultAnimationState = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        }
     }
 
     
@@ -71,20 +80,30 @@ public class Player : MonoBehaviour
 
             if(jumpsRemaining == maxMidAirJumps)
             {
-                animator.SetTrigger("Jump");
+                if(hasAnim)
+                {
+                    animator.SetTrigger("Jump");
+                }
+
                 isMidAir = true;
                 expectingFall = true;
             }
 
             jumpsRemaining -= 1;
-            debounceTime = Time.time + .15f;
+            debounceTime = Time.time + .05f;
 
 
         }
 
         if(!isMidAir && expectingFall)
         {
-            animator.SetTrigger("HitFloor");
+
+            if(hasAnim)
+            {
+
+                animator.SetTrigger("HitFloor");
+            }
+
             expectingFall = false;
         }
 
@@ -216,11 +235,13 @@ public class Player : MonoBehaviour
         isMidAir = false;
         expectingFall = false;
 
-
-        animator.SetBool("HitFloor",false);
-        animator.SetBool("Jump",false);
-        animator.Play(defaultAnimationState);
-
+        if(hasAnim)
+        {
+            animator.SetBool("HitFloor",false);
+            animator.SetBool("Jump",false);
+            animator.Play(defaultAnimationState);
+        }
+        
     }
 
 }

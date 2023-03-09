@@ -12,7 +12,7 @@ public enum WorldTheme
 [System.Serializable]
 public enum Character
 {
-    Santa,
+    Otter,
     Ball
 }
 
@@ -22,6 +22,7 @@ public class Settings
     public string songDirectoryPath;
     public WorldTheme selectedTheme;
     public Character selectedCharacter;
+    public int volumeLevel;
 
     [System.NonSerialized]
     public DirectoryInfo songDir; 
@@ -29,6 +30,19 @@ public class Settings
     public static string settingsJSON = "settings.json";
     [System.NonSerialized]
     public bool pathNull;
+    [System.NonSerialized]
+
+    public static Dictionary<string,Character> stringToChar = new Dictionary<string,Character>(){
+            {"Ball" , Character.Ball},
+            {"Otter" , Character.Otter}
+    };
+
+    public static Dictionary<string,Character> characterMap = new Dictionary<string,Character>(){
+            {"Ball" , Character.Ball},
+            {"Otter" , Character.Otter}
+    };
+
+
 
 
 
@@ -53,7 +67,7 @@ public class Settings
 
     public static Settings getDefaults()
     {
-        return new Settings("", WorldTheme.Industrial, Character.Santa);
+        return new Settings("", WorldTheme.Industrial, Character.Otter);
     }
     
 }
