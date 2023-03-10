@@ -5,18 +5,18 @@ using UnityEngine;
 public class CameraFollower : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    private Camera camera;
+    private Camera targetCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player"); 
-        camera = GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        targetCamera = GetComponent<Camera>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        camera.transform.position = new Vector3(player.transform.position.x,player.transform.position.y,camera.transform.position.z);
+        targetCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, GetComponent<Camera>().transform.position.z);
     }
 }

@@ -18,7 +18,7 @@ public enum BuildBlocks
 
 public class LevelUnit : MonoBehaviour
 {
-    public int seed; 
+    public int seed;
     public const float unitTime = 2f;
 
     private List<List<BuildBlocks>> grid = new List<List<BuildBlocks>>();
@@ -37,21 +37,22 @@ public class LevelUnit : MonoBehaviour
     private int gridMiddleX;
     public int gridMiddleY;
 
-    private List<(int,int)> floorCords = new List<(int,int)>();
-    private List<(int,int)> obstacleCords = new List<(int,int)>();
+    private List<(int, int)> floorCords = new List<(int, int)>();
+    private List<(int, int)> obstacleCords = new List<(int, int)>();
     private int maxDeathObstacles;
 
     private bool isLastUnit;
     private bool isFirst;
 
-    public LevelUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis, bool isLastUnit, bool isFirst)
-    {
 
-        if(Song.passedSongInstance != null)
+
+    public void SetupUnit(int worldStartX, int worldStartY, List<GameObject> prefab, AudioAnalysis audioAnalysis, bool isLastUnit, bool isFirst)
+    {
+        if (Song.passedSongInstance != null)
         {
             this.seed = Song.passedSongInstance.HashToInt();
         }
-        else 
+        else
         {
             this.seed = 100;
         }
@@ -65,10 +66,10 @@ public class LevelUnit : MonoBehaviour
         this.gridMiddleY = Mathf.CeilToInt(this.gridHeight / 2f);
 
         this.worldEndX = worldStartX + gridWidth;
-        
+
 
         // no more than 2 per sec
-        this.maxDeathObstacles = Mathf.FloorToInt(unitTime * 2.0f);;
+        this.maxDeathObstacles = Mathf.FloorToInt(unitTime * 2.0f); ;
 
         this.prefab = prefab;
         this.audioAnalysis = audioAnalysis;
@@ -76,18 +77,15 @@ public class LevelUnit : MonoBehaviour
         this.isLastUnit = isLastUnit;
         this.isFirst = isFirst;
 
-        for(int i = 0; i < gridWidth; i++)
+        for (int i = 0; i < gridWidth; i++)
         {
             grid.Add(new List<BuildBlocks>());
-            for(int j = 0; j < gridHeight; j++)
+            for (int j = 0; j < gridHeight; j++)
             {
                 grid[i].Add(BuildBlocks.Air);
             }
         }
-
     }
-
-
 
     public void GenerateUnit()
     {
@@ -97,11 +95,11 @@ public class LevelUnit : MonoBehaviour
 
         // want the last unit to be obstacle free
         // they already made it far enough
-        if(isLastUnit)
+        if (isLastUnit)
         {
             GenerateEnding();
         }
-        else if(!isFirst)
+        else if (!isFirst)
         {
             GenerateDeathObstacles();
             GenerateBonus();
@@ -115,10 +113,10 @@ public class LevelUnit : MonoBehaviour
 
     void GenerateEnding()
     {
-        int x = floorCords[floorCords.Count-1].Item1;
-        int y = floorCords[floorCords.Count-1].Item2+1;
+        int x = floorCords[floorCords.Count - 1].Item1;
+        int y = floorCords[floorCords.Count - 1].Item2 + 1;
 
-        for(int i = y; i < gridHeight; i++)
+        for (int i = y; i < gridHeight; i++)
         {
             grid[x][i] = BuildBlocks.LevelEnd;
 
@@ -130,7 +128,7 @@ public class LevelUnit : MonoBehaviour
     {
 
         // want to start one bellow the floor
-        FloodFill(0,this.gridMiddleY-1);
+        FloodFill(0, this.gridMiddleY - 1);
     }
 
     // this function is going to flood fill the FloorSupport
@@ -138,22 +136,22 @@ public class LevelUnit : MonoBehaviour
     void FloodFill(int x, int y)
     {
         // will recurse until out of bounds
-        if(x >= this.gridWidth || y >= this.gridHeight || x < 0 || y < 0)
+        if (x >= this.gridWidth || y >= this.gridHeight || x < 0 || y < 0)
         {
             return;
         }
 
-        if(this.grid[x][y] != BuildBlocks.Air || y >= this.floorCords[x].Item2)
+        if (this.grid[x][y] != BuildBlocks.Air || y >= this.floorCords[x].Item2)
         {
             return;
         }
 
-        this.grid[x][y] = BuildBlocks.FloorSupport; 
+        this.grid[x][y] = BuildBlocks.FloorSupport;
 
 
-        for(int i = -1; i < 2; i++)
+        for (int i = -1; i < 2; i++)
         {
-            for(int j = -1; j < 2; j++)
+            for (int j = -1; j < 2; j++)
             {
                 FloodFill(x + i, y + j);
             }
@@ -164,7 +162,7 @@ public class LevelUnit : MonoBehaviour
     {
         float randomFloat = UnityEngine.Random.Range(0f, 4f);
 
-        if(randomFloat < 3f)
+        if (randomFloat < 3f)
         {
             return;
         }
@@ -172,7 +170,7 @@ public class LevelUnit : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0, floorCords.Count);
         int x = floorCords[randomIndex].Item1;
         int y = floorCords[randomIndex].Item2;
-        grid[x][y+3] = BuildBlocks.BonusPoint;
+        grid[x][y + 3] = BuildBlocks.BonusPoint;
 
 
     }
@@ -182,17 +180,17 @@ public class LevelUnit : MonoBehaviour
         List<SoundBands> bands = new List<SoundBands>();
         List<float> powerIncreases = new List<float>();
         List<float> percents = new List<float>();
-        
 
-        foreach(SoundBands band in SoundBands.GetValues(typeof(SoundBands)))
+
+        foreach (SoundBands band in SoundBands.GetValues(typeof(SoundBands)))
         {
-                
-             float percent = this.audioAnalysis.highestDeltaPercent[band];
-             float powerIncrease = this.audioAnalysis.binnedPowerLevelIncreases[band];
 
-             bands.Add(band);
-             powerIncreases.Add(powerIncrease);
-             percents.Add(percent);
+            float percent = this.audioAnalysis.highestDeltaPercent[band];
+            float powerIncrease = this.audioAnalysis.binnedPowerLevelIncreases[band];
+
+            bands.Add(band);
+            powerIncreases.Add(powerIncrease);
+            percents.Add(percent);
 
         }
         // sort the lists by powerIncreases in descending order
@@ -212,47 +210,47 @@ public class LevelUnit : MonoBehaviour
         int numObstacles = this.maxDeathObstacles;
 
 
-        for(int i = 0; i < numObstacles; i ++)
+        for (int i = 0; i < numObstacles; i++)
         {
 
             int obstacleGridX = Mathf.FloorToInt(percents[i] * this.floorCords.Count);
 
             // 1 above the foor
-            int obstacleGridY = this.floorCords[obstacleGridX].Item2+1;
+            int obstacleGridY = this.floorCords[obstacleGridX].Item2 + 1;
 
             int closetsObstacle = this.gridWidth;
 
             // find closest obstacle in unit to make sure there is not too many to jump over
-            foreach(var currentObstacle in this.obstacleCords)
+            foreach (var currentObstacle in this.obstacleCords)
             {
                 float distance = Mathf.Abs(obstacleGridX - currentObstacle.Item1);
 
-                if(distance < closetsObstacle)
+                if (distance < closetsObstacle)
                 {
                     closetsObstacle = Mathf.FloorToInt(distance);
                 }
             }
 
-            if(closetsObstacle > 2)
+            if (closetsObstacle > 2)
             {
                 //bound check
-                if(obstacleGridX >= this.gridWidth)
+                if (obstacleGridX >= this.gridWidth)
                 {
                     continue;
                 }
-                if(obstacleGridY >= this.gridHeight)
+                if (obstacleGridY >= this.gridHeight)
                 {
                     continue;
                 }
 
                 // dont want obstacle on first x
-                if(obstacleGridX < 1)
+                if (obstacleGridX < 1)
                 {
                     continue;
                 }
 
                 obstacleCords.Add((obstacleGridX, obstacleGridY));
-                grid[obstacleGridX][obstacleGridY] = BuildBlocks.Death; 
+                grid[obstacleGridX][obstacleGridY] = BuildBlocks.Death;
             }
         }
 
@@ -267,22 +265,22 @@ public class LevelUnit : MonoBehaviour
         // loop over width
         // increment or decrement height randomly while making sure there is sufficient distance between deltas
 
-        for(int x = 0; x < gridWidth; x++)
+        for (int x = 0; x < gridWidth; x++)
         {
 
             UnityEngine.Random.InitState(seed + x + this.worldStartX);
 
             float randomFloat = UnityEngine.Random.Range(-1f, 1f);
 
-            if((x - lastChangeInHeight) > Mathf.Floor((float)gridWidth/3.0f))
+            if ((x - lastChangeInHeight) > Mathf.Floor((float)gridWidth / 3.0f))
             {
                 // dont want changes in height at the start
-                if(isFirst)
+                if (isFirst)
                 {
                     randomFloat = 0;
                 }
 
-                if(randomFloat > 0.6)
+                if (randomFloat > 0.6)
                 {
                     currentHeight += 1;
                     lastChangeInHeight = x;
@@ -293,26 +291,26 @@ public class LevelUnit : MonoBehaviour
                     lastChangeInHeight = x;
                 }
 
-                if(currentHeight < 0)
+                if (currentHeight < 0)
                 {
                     currentHeight = 0;
                 }
 
                 else if (currentHeight >= grid.Count)
                 {
-                    currentHeight = grid.Count-1;
+                    currentHeight = grid.Count - 1;
                 }
 
             }
 
-            this.floorCords.Add((x,currentHeight));
+            this.floorCords.Add((x, currentHeight));
 
 
-            grid[x][currentHeight] = BuildBlocks.Floor; 
-            
+            grid[x][currentHeight] = BuildBlocks.Floor;
+
         }
 
-        this.worldEndY = currentHeight-this.gridMiddleY + this.worldStartY;
+        this.worldEndY = currentHeight - this.gridMiddleY + this.worldStartY;
 
     }
 
@@ -321,14 +319,14 @@ public class LevelUnit : MonoBehaviour
 
     void InstantiateUnit()
     {
-        for(int x = 0; x < gridWidth; x++)
+        for (int x = 0; x < gridWidth; x++)
         {
-            for(int y = 0; y < gridHeight; y++)
+            for (int y = 0; y < gridHeight; y++)
             {
-                if(grid[x][y] != BuildBlocks.Air)
+                if (grid[x][y] != BuildBlocks.Air)
                 {
                     Vector2 blockPos = new Vector2(worldStartX + x, worldStartY + y);
-                    Instantiate(prefab[(int)grid[x][y]], blockPos, Quaternion.identity); 
+                    Instantiate(prefab[(int)grid[x][y]], blockPos, Quaternion.identity);
                 }
             }
 

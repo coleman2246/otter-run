@@ -29,11 +29,11 @@ public class Song : ScriptableObject
     [System.NonSerialized]
     public AudioClip clip;
 
-    
+
     [System.NonSerialized]
     FileInfo fileInfo;
 
-    public Song(FileInfo file)
+    public void SetupSong(FileInfo file)
     {
         this.fileInfo = file;
 
@@ -48,8 +48,8 @@ public class Song : ScriptableObject
     {
         string half = this.md5Hash.Substring(0, this.md5Hash.Length / 2);
 
-        string firstQuarter = half.Substring(0, half.Length/2);
-        string secQuarter = half.Substring(half.Length/2);
+        string firstQuarter = half.Substring(0, half.Length / 2);
+        string secQuarter = half.Substring(half.Length / 2);
 
         int firstQuarterNumber = Convert.ToInt32(firstQuarter, 16);
         int secQuarterNumber = Convert.ToInt32(secQuarter, 16);
@@ -73,13 +73,15 @@ public class Song : ScriptableObject
 
     public static Song SongFromString(string path)
     {
-        if(!File.Exists(path))
+        if (!File.Exists(path))
         {
             throw new FileNotFoundException($"File: {path} does not exist");
         }
 
         FileInfo file = new FileInfo(path);
-        return new Song(file);
+        Song newSong = ScriptableObject.CreateInstance<Song>();
+        newSong.SetupSong(file);
+        return newSong;
     }
 
     private static float LookUpHighScore(string hash)
@@ -87,7 +89,7 @@ public class Song : ScriptableObject
         return 0f;
     }
 
-    
+
     public void ToAudioClip()
     {
 
@@ -101,28 +103,30 @@ public class Song : ScriptableObject
         {
             web.SendWebRequest();
 
-            while (!web.isDone);
+            while (!web.isDone) ;
 
             if (!web.isNetworkError && !web.isHttpError)
             {
                 clip = DownloadHandlerAudioClip.GetContent(web);
             }
-        } 
+        }
 
     }
 
     public static List<Song> GetAllSongs(DirectoryInfo dir)
     {
         List<Song> songs = new List<Song>();
-        
+
         FileInfo[] songFiles = dir.GetFiles("*.mp3");
 
 
-        foreach(FileInfo currSong in songFiles)
+        foreach (FileInfo currSong in songFiles)
         {
+            Song newSong = ScriptableObject.CreateInstance<Song>();
+            newSong.SetupSong(currSong);
 
-            songs.Add(new Song(currSong));
-                
+            songs.Add(newSong);
+
         }
 
         // hashing is slow :(, lets throw more threads at it

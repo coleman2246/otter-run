@@ -13,11 +13,13 @@ public class LevelGeneration : MonoBehaviour
 
     public List<LevelUnit> units;
     public AudioAnalysis audioAnal;
-    
+    public GameObject obj;
+
     void Awake()
     {
 
-        audioAnal = GetComponent<AudioAnalysis>(); 
+        obj = new GameObject("LevelGenObject");
+        audioAnal = GetComponent<AudioAnalysis>();
         numberOfUnits = Mathf.CeilToInt((float)audioAnal.audioLen / (float)LevelUnit.unitTime);
         units = new List<LevelUnit>();
 
@@ -29,13 +31,14 @@ public class LevelGeneration : MonoBehaviour
         int currentStartX = 0;
         int currentStartY = 0;
 
-        startLocation = new Vector2(currentStartX,currentStartY);
+        startLocation = new Vector2(currentStartX, currentStartY);
 
-        for(int i = 0; i < numberOfUnits; i++)
+        for (int i = 0; i < numberOfUnits; i++)
         {
             audioAnal.GenerateAnalysis(i);
 
-            LevelUnit newUnit = new LevelUnit(currentStartX,currentStartY,propMap,audioAnal, i+1 >= numberOfUnits, i == 0);
+            LevelUnit newUnit = obj.AddComponent<LevelUnit>();
+            newUnit.SetupUnit(currentStartX, currentStartY, propMap, audioAnal, i + 1 >= numberOfUnits, i == 0);
             newUnit.GenerateUnit();
 
             currentStartX = newUnit.worldEndX;
@@ -44,7 +47,7 @@ public class LevelGeneration : MonoBehaviour
             units.Add(newUnit);
         }
 
-        endLocation = new Vector2(currentStartX,currentStartY);
+        endLocation = new Vector2(currentStartX, currentStartY);
 
 
         audioAnal.CleanUpDFT();

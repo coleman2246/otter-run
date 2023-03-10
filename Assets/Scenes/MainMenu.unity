@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c84133814255ea9dbd1eaf4ad12ba93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1555742077}
+  targetCamera: {fileID: 1555742077}
   backgroundObject: {fileID: 7961118896829341912, guid: 48fd73a741d39c924bc394bc91e68f9c, type: 3}
 --- !u!4 &1348530833
 Transform:
