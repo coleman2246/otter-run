@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.cloudedmountain.ide.neovim": {
-      "version": "file:/home/cole/com.cloudedmountain.ide.neovim",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "7.0.9",
       "depth": 1,
