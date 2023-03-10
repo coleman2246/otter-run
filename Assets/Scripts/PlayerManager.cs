@@ -6,26 +6,22 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
-    [SerializeField] private static string prefabFolder = "Assets/Prefabs/Players";
+    [SerializeField] private static string prefabFolder = "Prefabs/Players";
     //public static Dictionary<Character,GameObject> players = GetPlayersPrefabs();
     public Settings settings;
 
-    public static Dictionary<Character,GameObject> GetPlayersPrefabs()
+    public static Dictionary<Character, GameObject> GetPlayersPrefabs()
     {
 
-        Dictionary<Character,GameObject> map = new Dictionary<Character,GameObject>();
+        Dictionary<Character, GameObject> map = new Dictionary<Character, GameObject>();
 
-        foreach(string id in AssetDatabase.FindAssets("t:Prefab", new[] { PlayerManager.prefabFolder }))
+        foreach (GameObject prefab in Resources.LoadAll<GameObject>(PlayerManager.prefabFolder))
         {
-            string path = AssetDatabase.GUIDToAssetPath(id);
-
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-
-            if(Settings.characterMap.ContainsKey(prefab.name))
+            if (Settings.characterMap.ContainsKey(prefab.name))
             {
                 SpriteRenderer renderer = prefab.GetComponent<SpriteRenderer>();
 
-                if(renderer == null)
+                if (renderer == null)
                 {
                     Debug.LogError($"Prefab Does not have a SpriteRenderer: {prefab.name}");
                     continue;
@@ -42,17 +38,17 @@ public class PlayerManager : MonoBehaviour
         return map;
     }
 
-   void Awake()
-   {
-        if(JSONManager.verifySavePathFile(Settings.settingsJSON))
+    void Awake()
+    {
+        if (JSONManager.verifySavePathFile(Settings.settingsJSON))
         {
             settings = JSONLoadManager<Settings>.LoadFromJson(Settings.settingsJSON);
         }
-        else 
+        else
         {
             settings = Settings.getDefaults();
         }
 
         Instantiate(GetPlayersPrefabs()[settings.selectedCharacter]);
-   }
+    }
 }

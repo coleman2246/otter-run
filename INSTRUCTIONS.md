@@ -33,7 +33,7 @@ Before we get started you are going to need to create 2 sets of prefabs. For the
 
 You are also going to need to create a player prefab.
 
-You can see examples of these prefabs in `Assets/Prefabs`. Please ensure that each prefab is 1 meter wide and for all of them except the player ensure they are 1 meter tall.
+You can see examples of these prefabs in `Assets/Resources/Prefabs`. Please ensure that each prefab is 1 meter wide and for all of them except the player ensure they are 1 meter tall.
 
 # Level Generation
 This is likely the most complex system in this game, but things will tried to be kept as simple as possible.
