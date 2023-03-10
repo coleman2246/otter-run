@@ -6,6 +6,8 @@ You can work on this assignment alone or in a group of no more than 2 students.
 | :------------------------- |:------------------:|
 | Cole Mollica | coleman2246 |
 
+If you have issues building the game a release of the game has been built [here](https://github.com/CSCI4160U/project-1-cole-m/releases/tag/v1)
+
 Trailer video URL: https://www.youtube.com/watch?v=Sw1ZYlGE2Ro
 
 _**Note:** The commit logs will be examined to be sure that both participants participated equally on this project._

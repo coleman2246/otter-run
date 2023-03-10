@@ -69,3 +69,7 @@ This song is used for testing was The Introvert by Micheal Kobrin. It is also in
 ## Space Intro - Jeremusic70
 - Free for personal or commercial use
 - https://pixabay.com/music/corporate-space-intro-124261/
+
+# Build Icon
+- Public domain clip art 
+- https://publicdomainvectors.org/en/free-clipart/Otter/62134.html
