@@ -6,7 +6,7 @@ You can work on this assignment alone or in a group of no more than 2 students.
 | :------------------------- |:------------------:|
 | Cole Mollica | coleman2246 |
 
-Trailer video URL: _________________________
+Trailer video URL: https://www.youtube.com/watch?v=Sw1ZYlGE2Ro
 
 _**Note:** The commit logs will be examined to be sure that both participants participated equally on this project._
 

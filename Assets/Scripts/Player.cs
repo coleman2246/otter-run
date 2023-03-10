@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
         float y = levelGen.startLocation.y + levelGen.units[0].gridMiddleY + 1;
 
         // need to start close to 0 for time to line up
-        transform.position = new Vector2(levelGen.startLocation.x+1,y+1);
+        transform.position = new Vector2(levelGen.startLocation.x+1,y+2);
         
 
         lastLocation = transform.position;

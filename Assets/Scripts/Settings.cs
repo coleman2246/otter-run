@@ -46,11 +46,12 @@ public class Settings
 
 
 
-    public Settings(string songDirectoryPath, WorldTheme selectedTheme, Character selectedCharacter)
+    public Settings(string songDirectoryPath, WorldTheme selectedTheme, Character selectedCharacter, int volumeLevel)
     {
         this.songDirectoryPath = songDirectoryPath;
         this.selectedTheme = selectedTheme;
         this.selectedCharacter = selectedCharacter;
+        this.volumeLevel = volumeLevel;
         
     }
 
@@ -67,7 +68,7 @@ public class Settings
 
     public static Settings getDefaults()
     {
-        return new Settings("", WorldTheme.Industrial, Character.Otter);
+        return new Settings("", WorldTheme.Industrial, Character.Otter, 50);
     }
     
 }

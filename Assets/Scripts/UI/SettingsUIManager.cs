@@ -120,7 +120,7 @@ public class SettingsUIManager : MonoBehaviour
         {
 
             Debug.Log(paths[0]);
-            settings = new Settings(paths[0], settings.selectedTheme, settings.selectedCharacter);
+            settings = new Settings(paths[0], settings.selectedTheme, settings.selectedCharacter, settings.volumeLevel);
             JSONSaveManager<Settings>.SaveToJson(Settings.settingsJSON,settings);
         }
 

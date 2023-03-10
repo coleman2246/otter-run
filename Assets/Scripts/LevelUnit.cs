@@ -104,9 +104,9 @@ public class LevelUnit : MonoBehaviour
         else if(!isFirst)
         {
             GenerateDeathObstacles();
+            GenerateBonus();
         }
 
-        GenerateBonus();
 
         InstantiateUnit();
 
